@@ -1,0 +1,57 @@
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.std_logic_unsigned.all;
+
+entity robot_cutecar_de0nano is
+port(
+	clock_50: in std_logic;
+	key: in std_logic_vector(1 downto 0);
+	sw: in std_logic_vector(3 downto 0);
+	led: out std_logic_vector(7 downto 0);
+	dram_clk, dram_cke: out std_logic;
+	dram_addr: out std_logic_vector(12 downto 0);
+	dram_ba: out std_logic_vector(1 downto 0);
+	dram_cs_n, dram_cas_n, dram_ras_n, dram_we_n: out std_logic;
+	dram_dq: inout std_logic_vector(15 downto 0);
+	dram_dqm: out std_logic_vector(1 downto 0)
+);
+end robot_cutecar_de0nano;
+
+architecture robot_rtl of robot_cutecar_de0nano is
+    component niosII_v1 is
+        port (
+            clk_clk          : in    std_logic                     := 'X';             -- clk
+            switches_export  : in    std_logic_vector(3 downto 0)  := (others => 'X'); -- export
+            leds_export      : out   std_logic_vector(7 downto 0);                     -- export
+            reset_reset_n    : in    std_logic                     := 'X';             -- reset_n
+				sdram_clock_clk  : out   std_logic;                                        -- clk
+            sdram_wire_addr  : out   std_logic_vector(12 downto 0);                    -- addr
+            sdram_wire_ba    : out   std_logic_vector(1 downto 0);                     -- ba
+            sdram_wire_cas_n : out   std_logic;                                        -- cas_n
+            sdram_wire_cke   : out   std_logic;                                        -- cke
+            sdram_wire_cs_n  : out   std_logic;                                        -- cs_n
+            sdram_wire_dq    : inout std_logic_vector(15 downto 0) := (others => 'X'); -- dq
+            sdram_wire_dqm   : out   std_logic_vector(1 downto 0);                     -- dqm
+            sdram_wire_ras_n : out   std_logic;                                        -- ras_n
+            sdram_wire_we_n  : out   std_logic                                         -- we_n
+        );
+    end component niosII_v1;
+begin
+    niosII : component niosII_v1
+        port map (
+            clk_clk          => clock_50,   --         clk.clk
+            switches_export  => sw,         --    switches.export
+            leds_export      => led,        --        leds.export
+            reset_reset_n    => key(0),     --       reset.reset_n
+				sdram_clock_clk  => dram_clk,   -- sdram_clock.clk
+            sdram_wire_addr  => dram_addr,  --  sdram_wire.addr
+            sdram_wire_ba    => dram_ba,    --            .ba
+            sdram_wire_cas_n => dram_cas_n, --            .cas_n
+            sdram_wire_cke   => dram_cke,   --            .cke
+            sdram_wire_cs_n  => dram_cs_n,  --            .cs_n
+            sdram_wire_dq    => dram_dq,    --            .dq
+            sdram_wire_dqm   => dram_dqm,   --            .dqm
+            sdram_wire_ras_n => dram_ras_n, --            .ras_n
+            sdram_wire_we_n  => dram_we_n   --            .we_n
+        );
+end robot_rtl;
