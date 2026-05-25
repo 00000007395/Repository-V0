@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nios2_config version="1.0">
+    <system>
+        <system_info filepath="true">Line_Follwer_Robot_FPGA_Co_design-2_SDRAM\embedded_system.qsys</system_info>
+        <system_sof filepath="true">Line_Follwer_Robot_FPGA_Co_design-2_SDRAM\output_files\sysRobot.sof</system_sof>
+        <system_jdi filepath="true">Line_Follwer_Robot_FPGA_Co_design-2_SDRAM\output_files\sysRobot.jdi</system_jdi>
+        <cable>USB-Blaster [USB-0]</cable>
+        <processor JTAGHubInstanceID="0">nios2_qsys_0</processor>
+        <terminal JTAGHubInstanceID="0">JTAG_UART</terminal>
+    </system>
+</nios2_config>
